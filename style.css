@@ -1,1 +1,34 @@
+body{
+    display: flex;
+    flex-direction: column;
+    outline: solid red 5px;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
 
+.calculator-display{
+    display: flex;
+    padding: 20px ;
+    outline: solid black 2px;
+    background-color: grey;
+}
+
+.calculator-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    outline: solid black 2px;
+    padding: 10px;
+
+}
+
+.calculator-row{
+    display: flex;
+    padding: 2px;
+}
+
+#row-1{
+    margin-top: 10px;
+}
