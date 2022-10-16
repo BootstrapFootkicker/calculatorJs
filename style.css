@@ -1,4 +1,4 @@
-body{
+body {
     display: flex;
     flex-direction: column;
     outline: solid red 5px;
@@ -7,14 +7,16 @@ body{
     align-items: center;
 }
 
-.calculator-display{
+.calculator-display {
     display: flex;
-    padding: 20px ;
+    padding: 20px;
     outline: solid black 2px;
     background-color: grey;
+    min-width: 100px;
+    text-align: center;
 }
 
-.calculator-container{
+.calculator-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -24,11 +26,11 @@ body{
 
 }
 
-.calculator-row{
+.calculator-row {
     display: flex;
     padding: 2px;
 }
 
-#row-1{
+#row-1 {
     margin-top: 10px;
 }
