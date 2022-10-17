@@ -43,7 +43,40 @@ function operate(operator, a, b) {
     }
 }
 
+function isNegative(array) {
+    let negative = false;
+    if (array[0]==='-'){
+        negative=true;
+    }
+    return negative;
+}
+
+function containsOperator(array) {
+    let operators = ['/', '+', '-', '*'];
+    let hasOperator = false;
+    for (let operator in operators) {
+        if (array.includes(operators[operator]) === true) {
+            console.log(hasOperator)
+            hasOperator = true;
+        }
+    }
+
+    return hasOperator;
+}
+
 function addToDisplay(value) {
+
+    if (containsOperator(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/') && isNegative(displayText) === false) {
+        console.log(containsOperator(displayText))
+        return;
+    }
+
+    if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-'
+        || displayText.length < 1 && value === '*' ||
+        displayText.length < 1 && value === '/') {
+        return;
+    }
+
     displayText.push(value);
     display.innerText = displayText.join('');
     console.log(displayText)
@@ -66,18 +99,19 @@ function displayResult(result) {
 }
 
 function parseArray(array) {
-    let isNegative = false;
+
+
     let a;
     let b;
     let indexOfOperator;
     let result;
-    if (isOperator(array[0])) {
-        console.log(array[0] + " negative!");
-        console.log(array.shift());
-        isNegative = true;
-    }
+
+
     indexOfOperator = array.findIndex(isOperator)
-    if (isNegative === true) {
+    if (isNegative(array) === true) {
+        console.log('parse negative')
+        console.log("shift "+array.shift());
+        indexOfOperator = array.findIndex(isOperator)
         a = parseFloat('-' + array.slice(0, indexOfOperator).join(''));
     } else {
         a = parseFloat(array.slice(0, indexOfOperator).join(''));
@@ -89,10 +123,10 @@ function parseArray(array) {
 
     displayResult(result);
     displayText = result.toString().split('');
-    console.log("a " + a);
-    console.log("b " + b);
-    console.log(array[indexOfOperator])
-    console.log('result ' + result);
+    // console.log("a " + a);
+    // console.log("b " + b);
+    // console.log(array[indexOfOperator])
+    // console.log('result ' + result);
 }
 
 
@@ -110,3 +144,4 @@ for (let btn of operatorButtons) {
 }
 
 equalButton.addEventListener('click', () => parseArray(displayText));
+
