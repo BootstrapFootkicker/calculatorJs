@@ -2,125 +2,105 @@ let numberButtons = document.querySelectorAll('.number');
 let display = document.querySelector('.calculator-display');
 let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.evaluate');
-let displayForA = '';
-let displayForB = '';
-let operator = ''
-let operatorPressed = false;
-let displayText = '';
-let result = 0;
-let equalPressed = false
+let displayText = [];
 
+let result = 0;
 
 function add(a, b) {
     console.log(a + b)
-    result = a + b;
-    return result
+    return (a + b)
 }
 
 function subtract(a, b) {
-    console.log(a - b)
-    result = a - b;
-    return result
+    console.log(a - b);
+    return (a - b);
 }
 
 function multiply(a, b) {
     console.log(a * b)
-    result = a * b;
-    return result
+    return (a * b);
 }
 
 function divide(a, b) {
-    console.log(a / b)
-    result = a / b;
-    return result
+    console.log(a / b);
+    return (a / b);
 }
 
 function operate(operator, a, b) {
     switch (operator) {
         case '+':
-            add(a, b);
-            displayText.innerText = result;
-            break;
+            return add(a, b);
         case '-':
-            subtract(a, b);
-            break;
+            return subtract(a, b);
+
         case '*':
-            multiply(a, b);
-            break;
+            return multiply(a, b);
+
         case '/':
-            divide(a, b);
-            break;
+            return divide(a, b);
+
         default:
             console.log('ERROR!')
 
     }
 }
 
-function updateDisplay() {
-    if (equalPressed === true) {
-        displayText = result;
+function addToDisplay(value) {
+    displayText.push(value);
+    display.innerText = displayText.join('');
+    console.log(displayText)
+}
+
+function isOperator(element) {
+    return (element === '+' || element === '-' || element === '/' || element === '*');
+}
+
+
+function removeFromDisplay() {
+    displayText.pop()
+}
+
+function displayResult(result) {
+    if (result === undefined) {
+        return;
     }
-    displayText = displayForA + operator + displayForB;
-    display.innerText = displayText;
-
-
+    display.innerText = result;
 }
 
-function displayResult() {
-    displayText.innerText = result;
-    console.log(result)
+function clearDisplay(array) {
+    return array = [];
 }
 
-function setOperator(button) {
-    if (displayForA.length > 0) {
-        operator = button.innerText;
-        operatorPressed = true;
-        console.log(operator);
-        updateDisplay()
+function parseArray(array) {
 
-    }
-}
-
-function getOperatorPressed() {
-    console.log(operatorPressed)
-    return operatorPressed;
-}
-
-function setDisplay(button) {
-    if (getOperatorPressed() === true) {
-        displayForB += button
-        console.log("b " + displayForB);
-        updateDisplay();
-        console.log("display text " + displayText)
-        return displayForB
-    }
-    displayForA += button;
-    console.log("A " + displayForA);
-    updateDisplay();
-    console.log("display text " + displayText)
-    return displayForA
-
+    let a = 0;
+    let b = 0;
+    let indexOfOperator = 0;
+    let result = 0;
+    indexOfOperator = array.findIndex(isOperator)
+    a = parseFloat(array.slice(0, indexOfOperator).join(''));
+    b = parseFloat(array.slice(indexOfOperator + 1, array.length).join(''));
+    result = operate(array[indexOfOperator], a, b);
+    displayResult(result);
+    displayText=[];
+    console.log("a " + a);
+    console.log("b " + b);
+    console.log(array[indexOfOperator])
+    console.log('result ' + result);
 }
 
 
 for (let btn of numberButtons) {
 
-    btn.addEventListener('click', (event) => setDisplay(btn.innerText));
+    btn.addEventListener('click', (event) => addToDisplay(btn.innerText));
 
 
 }
 
 for (let btn of operatorButtons) {
-    btn.addEventListener('click', (event) => setOperator(btn));
+    btn.addEventListener('click', (event) => addToDisplay(btn.innerText));
 
 
 }
 
-equalButton.addEventListener('click', (event) => {
-
-    operate(operator, parseFloat(displayForA),
-        parseFloat(displayForB));
-    display.innerText = result;
-
-
-})
+equalButton.addEventListener('click', () => parseArray(displayText));
