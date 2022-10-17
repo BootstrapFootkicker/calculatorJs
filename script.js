@@ -4,8 +4,6 @@ let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.evaluate');
 let displayText = [];
 
-let result = 0;
-
 function add(a, b) {
     console.log(a + b)
     return (a + b)
@@ -67,22 +65,30 @@ function displayResult(result) {
     display.innerText = result;
 }
 
-function clearDisplay(array) {
-    return array = [];
-}
-
 function parseArray(array) {
-
-    let a = 0;
-    let b = 0;
-    let indexOfOperator = 0;
-    let result = 0;
+    let isNegative = false;
+    let a;
+    let b;
+    let indexOfOperator;
+    let result;
+    if (isOperator(array[0])) {
+        console.log(array[0] + " negative!");
+        console.log(array.shift());
+        isNegative = true;
+    }
     indexOfOperator = array.findIndex(isOperator)
-    a = parseFloat(array.slice(0, indexOfOperator).join(''));
+    if (isNegative === true) {
+        a = parseFloat('-' + array.slice(0, indexOfOperator).join(''));
+    } else {
+        a = parseFloat(array.slice(0, indexOfOperator).join(''));
+    }
+
     b = parseFloat(array.slice(indexOfOperator + 1, array.length).join(''));
+
     result = operate(array[indexOfOperator], a, b);
+
     displayResult(result);
-    displayText=[];
+    displayText = result.toString().split('');
     console.log("a " + a);
     console.log("b " + b);
     console.log(array[indexOfOperator])
