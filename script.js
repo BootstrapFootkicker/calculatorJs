@@ -3,6 +3,7 @@ let display = document.querySelector('.calculator-display');
 let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.evaluate');
 let deleteButton = document.querySelector('.delete');
+let clearButton = document.querySelector('.clear');
 let displayText = [];
 
 function add(a, b) {
@@ -127,7 +128,10 @@ function addToDisplay(value) {
 function isOperator(element) {
     return (element === '+' || element === '-' || element === '/' || element === '*');
 }
-
+function clearDisplay(){
+    displayText=[];
+    display.innerText=0;
+}
 
 function removeFromDisplay() {
     displayText.pop()
@@ -205,3 +209,5 @@ for (let btn of operatorButtons) {
 equalButton.addEventListener('click', () => parseArray(displayText));
 
 deleteButton.addEventListener('click', removeFromDisplay);
+
+clearButton.addEventListener('click',clearDisplay);
