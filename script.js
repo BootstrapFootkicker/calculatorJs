@@ -43,10 +43,23 @@ function operate(operator, a, b) {
     }
 }
 
+//adds 'r' to array after initial operation to track whether an operation has already been done.
+function nextOperation(array) {
+
+    if (array.includes('r')) {
+        console.log('r true')
+        return true;
+    } else {
+        console.log('r false')
+        return false;
+    }
+
+}
+
 function isNegative(array) {
     let negative = false;
-    if (array[0]==='-'){
-        negative=true;
+    if (array[0] === '-') {
+        negative = true;
     }
     return negative;
 }
@@ -66,16 +79,44 @@ function containsOperator(array) {
 
 function addToDisplay(value) {
 
+    //prevents user from inputting extra operators.
     if (containsOperator(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/') && isNegative(displayText) === false) {
         console.log(containsOperator(displayText))
-        return;
+        //if result is negative allows you to continue
+        if (displayText[0] === 'r' && displayText[1] === '-' && ((value === '+' || value === '-' || value === '*' || value === '/'))) {
+            console.log(displayText.shift());
+            console.log('good fire')
+        } else {
+            console.log('wrong fire')
+            return;
+        }
+
     }
 
+    //prevents user from inputting a 0 or operator as first value
     if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-'
         || displayText.length < 1 && value === '*' ||
         displayText.length < 1 && value === '/') {
+
         return;
     }
+
+
+    //only allows user to continue operating if the next value isn't an operator after getting initial result
+    if (nextOperation(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/')) {
+
+        console.log(displayText.shift())
+
+
+    }
+
+    //stops user from entering numbers after initial operation
+    if (nextOperation(displayText) === true && (value !== '+' || value !== '-' || value !== '*' || value !== '/')) {
+
+
+        return;
+    }
+
 
     displayText.push(value);
     display.innerText = displayText.join('');
@@ -110,7 +151,7 @@ function parseArray(array) {
     indexOfOperator = array.findIndex(isOperator)
     if (isNegative(array) === true) {
         console.log('parse negative')
-        console.log("shift "+array.shift());
+        console.log("shift " + array.shift());
         indexOfOperator = array.findIndex(isOperator)
         a = parseFloat('-' + array.slice(0, indexOfOperator).join(''));
     } else {
@@ -123,6 +164,7 @@ function parseArray(array) {
 
     displayResult(result);
     displayText = result.toString().split('');
+    displayText.unshift('r')
     // console.log("a " + a);
     // console.log("b " + b);
     // console.log(array[indexOfOperator])
