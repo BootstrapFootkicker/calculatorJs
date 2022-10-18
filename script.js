@@ -90,7 +90,7 @@ function addToDisplay(value) {
         //if result is negative allows you to continue
         if (displayText[0] === 'r' && displayText[1] === '-' && ((value === '+' || value === '-' || value === '*' || value === '/'))) {
             displayText.shift();
-           
+
 
 
         } else {
