@@ -7,22 +7,22 @@ let clearButton = document.querySelector('.clear');
 let displayText = [];
 
 function add(a, b) {
-    console.log(a + b);
+
     return (a + b);
 }
 
 function subtract(a, b) {
-    console.log(a - b);
+
     return (a - b);
 }
 
 function multiply(a, b) {
-    console.log(a * b)
+
     return (a * b);
 }
 
 function divide(a, b) {
-    console.log(a / b);
+
     return (a / b);
 }
 
@@ -49,10 +49,8 @@ function operate(operator, a, b) {
 function nextOperation(array) {
 
     if (array.includes('r')) {
-        console.log('r true');
         return true;
     } else {
-        console.log('r false');
         return false;
     }
 
@@ -66,16 +64,21 @@ function isNegative(array) {
     return negative;
 }
 
+//idea check both sides of decimal place maybe for decimal
 function containsOperator(array) {
+
     let operators = ['/', '+', '-', '*'];
     let hasOperator = false;
+
     for (let operator in operators) {
         if (array.includes(operators[operator]) === true) {
-            console.log(hasOperator)
+
             hasOperator = true;
+            break;
         }
     }
-
+    console.log(hasOperator + ' operator')
+    console.log(displayText)
     return hasOperator;
 }
 
@@ -83,16 +86,23 @@ function addToDisplay(value) {
 
     //prevents user from inputting extra operators.
     if (containsOperator(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/') && isNegative(displayText) === false) {
-        console.log(containsOperator(displayText))
+
         //if result is negative allows you to continue
         if (displayText[0] === 'r' && displayText[1] === '-' && ((value === '+' || value === '-' || value === '*' || value === '/'))) {
-            console.log(displayText.shift());
-            console.log('good fire')
+            displayText.shift();
+           
+
+
         } else {
-            console.log('wrong fire')
+
             return;
         }
 
+    }
+
+    //allows only one operator when number is negative
+    if (isNegative(displayText) === true && containsOperator(displayText.slice(1, displayText.length)) === true && (value === '+' || value === '-' || value === '*' || value === '/')) {
+        return;
     }
 
     //prevents user from inputting a 0 or operator as first value
@@ -107,7 +117,7 @@ function addToDisplay(value) {
     //only allows user to continue operating if the next value isn't an operator after getting initial result
     if (nextOperation(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/')) {
 
-        console.log(displayText.shift())
+        displayText.shift()
 
 
     }
@@ -122,15 +132,16 @@ function addToDisplay(value) {
 
     displayText.push(value);
     display.innerText = displayText.join('');
-    console.log(displayText)
+
 }
 
 function isOperator(element) {
     return (element === '+' || element === '-' || element === '/' || element === '*');
 }
-function clearDisplay(){
-    displayText=[];
-    display.innerText=0;
+
+function clearDisplay() {
+    displayText = [];
+    display.innerText = 0;
 }
 
 function removeFromDisplay() {
@@ -168,7 +179,13 @@ function parseArray(array) {
     let indexOfOperator;
     let result;
 
+    //prevents NAN error when hitting equal with just negative value
+    if (displayText.includes('r')) {
+        if (displayText.slice(1, displayText.length).length < 3) {
+            return;
+        }
 
+    }
     indexOfOperator = array.findIndex(isOperator)
     if (isNegative(array) === true) {
         console.log('parse negative')
@@ -186,10 +203,7 @@ function parseArray(array) {
     displayResult(result);
     displayText = result.toString().split('');
     displayText.unshift('r')
-    // console.log("a " + a);
-    // console.log("b " + b);
-    // console.log(array[indexOfOperator])
-    // console.log('result ' + result);
+
 }
 
 
@@ -210,4 +224,4 @@ equalButton.addEventListener('click', () => parseArray(displayText));
 
 deleteButton.addEventListener('click', removeFromDisplay);
 
-clearButton.addEventListener('click',clearDisplay);
+clearButton.addEventListener('click', clearDisplay);
