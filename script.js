@@ -4,6 +4,7 @@ let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.evaluate');
 let deleteButton = document.querySelector('.delete');
 let clearButton = document.querySelector('.clear');
+let decimalButton = document.querySelector('.decimal')
 let displayText = [];
 
 function add(a, b) {
@@ -26,6 +27,30 @@ function divide(a, b) {
     return (a / b);
 }
 
+function findOperatorIndex(array) {
+    let index;
+    //call back for find function return element = to operator
+    const isOperator = (element) => element === '+' || element === '-' || element === '/' || element === '*';
+
+    if (nextOperation(array) === true) {
+        if (isNegative(array.slice(1, array.length)) === true) {
+
+            index = array.slice(2, array.length).findIndex(isOperator) + 2;
+            console.log(index + ' next operatop neg')
+        }
+    } else if (isNegative(array) === true) {
+
+        index = array.slice(1, array.length).findIndex(isOperator) + 1;
+        console.log(index + 'negative')
+    } else {
+
+        index = array.findIndex(isOperator);
+
+        console.log(index)
+        return index;
+    }
+}
+
 function operate(operator, a, b) {
     switch (operator) {
         case '+':
@@ -41,6 +66,16 @@ function operate(operator, a, b) {
 
         default:
             console.log('ERROR!');
+
+    }
+}
+
+function hasDecimal(array) {
+    for (let index in array) {
+        if (array[index] === '.') {
+            console.log(true)
+            return true
+        }
 
     }
 }
@@ -92,7 +127,6 @@ function addToDisplay(value) {
             displayText.shift();
 
 
-
         } else {
 
             return;
@@ -108,7 +142,7 @@ function addToDisplay(value) {
     //prevents user from inputting a 0 or operator as first value
     if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-'
         || displayText.length < 1 && value === '*' ||
-        displayText.length < 1 && value === '/') {
+        displayText.length < 1 && value === '/' || displayText.length < 1 && value === '.') {
 
         return;
     }
@@ -126,6 +160,15 @@ function addToDisplay(value) {
     if (nextOperation(displayText) === true && (value !== '+' || value !== '-' || value !== '*' || value !== '/')) {
 
 
+        return;
+    }
+
+
+    let index = findOperatorIndex(displayText)
+    if (hasDecimal(displayText.slice(0, index) && value === '.')) {
+        return;
+    }
+    if (hasDecimal(displayText.slice(index, displayText.length)) && value === '.') {
         return;
     }
 
@@ -220,8 +263,10 @@ for (let btn of operatorButtons) {
 
 }
 
+decimalButton.addEventListener('click', () => addToDisplay(decimalButton.innerText));
 equalButton.addEventListener('click', () => parseArray(displayText));
 
 deleteButton.addEventListener('click', removeFromDisplay);
 
 clearButton.addEventListener('click', clearDisplay);
+
