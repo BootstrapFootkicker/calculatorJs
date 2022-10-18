@@ -2,11 +2,12 @@ let numberButtons = document.querySelectorAll('.number');
 let display = document.querySelector('.calculator-display');
 let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.evaluate');
+let deleteButton = document.querySelector('.delete');
 let displayText = [];
 
 function add(a, b) {
-    console.log(a + b)
-    return (a + b)
+    console.log(a + b);
+    return (a + b);
 }
 
 function subtract(a, b) {
@@ -38,7 +39,7 @@ function operate(operator, a, b) {
             return divide(a, b);
 
         default:
-            console.log('ERROR!')
+            console.log('ERROR!');
 
     }
 }
@@ -47,10 +48,10 @@ function operate(operator, a, b) {
 function nextOperation(array) {
 
     if (array.includes('r')) {
-        console.log('r true')
+        console.log('r true');
         return true;
     } else {
-        console.log('r false')
+        console.log('r false');
         return false;
     }
 
@@ -130,6 +131,22 @@ function isOperator(element) {
 
 function removeFromDisplay() {
     displayText.pop()
+    updateDisplay();
+
+}
+
+function updateDisplay() {
+    //checks so that calculator doesn't display 'r' token value
+    if (displayText.includes('r')) {
+        display.innerText = displayText.slice(1, displayText.length).join('');
+    } else {
+        display.innerText = displayText.join('');
+    }
+
+    //removes 'r' check value if user wants to start brand-new calculation
+    if (displayText.length === 1 && displayText.includes('r')) {
+        displayText.pop();
+    }
 }
 
 function displayResult(result) {
@@ -187,3 +204,4 @@ for (let btn of operatorButtons) {
 
 equalButton.addEventListener('click', () => parseArray(displayText));
 
+deleteButton.addEventListener('click', removeFromDisplay);
