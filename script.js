@@ -36,19 +36,20 @@ function findOperatorIndex(array) {
         if (isNegative(array.slice(1, array.length)) === true) {
 
             index = array.slice(2, array.length).findIndex(isOperator) + 2;
-            console.log(index + ' next operatop neg')
+
         }
     } else if (isNegative(array) === true) {
 
         index = array.slice(1, array.length).findIndex(isOperator) + 1;
-        console.log(index + 'negative')
+
     } else {
 
         index = array.findIndex(isOperator);
 
-        console.log(index)
-        return index;
+
+
     }
+    return index
 }
 
 function operate(operator, a, b) {
@@ -73,7 +74,6 @@ function operate(operator, a, b) {
 function hasDecimal(array) {
     for (let index in array) {
         if (array[index] === '.') {
-            console.log(true)
             return true
         }
 
@@ -112,13 +112,12 @@ function containsOperator(array) {
             break;
         }
     }
-    console.log(hasOperator + ' operator')
-    console.log(displayText)
+
     return hasOperator;
 }
 
 function addToDisplay(value) {
-
+    let index = findOperatorIndex(displayText);
     //prevents user from inputting extra operators.
     if (containsOperator(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/') && isNegative(displayText) === false) {
 
@@ -140,9 +139,7 @@ function addToDisplay(value) {
     }
 
     //prevents user from inputting a 0 or operator as first value
-    if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-'
-        || displayText.length < 1 && value === '*' ||
-        displayText.length < 1 && value === '/' || displayText.length < 1 && value === '.') {
+    if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-' || displayText.length < 1 && value === '*' || displayText.length < 1 && value === '/' ) {
 
         return;
     }
@@ -164,11 +161,16 @@ function addToDisplay(value) {
     }
 
 
-    let index = findOperatorIndex(displayText)
+    //won't allow extra decimals, slices before operator
     if (hasDecimal(displayText.slice(0, index) && value === '.')) {
+
         return;
     }
     if (hasDecimal(displayText.slice(index, displayText.length)) && value === '.') {
+        if (index === undefined) {
+            index = findOperatorIndex(displayText);
+            alert("Index " + index + ' ' + displayText + ' empty')
+        }
         return;
     }
 
@@ -231,8 +233,8 @@ function parseArray(array) {
     }
     indexOfOperator = array.findIndex(isOperator)
     if (isNegative(array) === true) {
-        console.log('parse negative')
-        console.log("shift " + array.shift());
+
+        array.shift();
         indexOfOperator = array.findIndex(isOperator)
         a = parseFloat('-' + array.slice(0, indexOfOperator).join(''));
     } else {
