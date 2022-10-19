@@ -7,6 +7,7 @@ let clearButton = document.querySelector('.clear');
 let decimalButton = document.querySelector('.decimal')
 let displayText = [];
 
+
 function add(a, b) {
 
     return (a + b);
@@ -45,7 +46,6 @@ function findOperatorIndex(array) {
     } else {
 
         index = array.findIndex(isOperator);
-
 
 
     }
@@ -117,6 +117,7 @@ function containsOperator(array) {
 }
 
 function addToDisplay(value) {
+
     let index = findOperatorIndex(displayText);
     //prevents user from inputting extra operators.
     if (containsOperator(displayText) === true && (value === '+' || value === '-' || value === '*' || value === '/') && isNegative(displayText) === false) {
@@ -139,7 +140,7 @@ function addToDisplay(value) {
     }
 
     //prevents user from inputting a 0 or operator as first value
-    if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-' || displayText.length < 1 && value === '*' || displayText.length < 1 && value === '/' ) {
+    if (displayText.length < 1 && value === '0' || displayText.length < 1 && value === '+' || displayText.length < 1 && value === '-' || displayText.length < 1 && value === '*' || displayText.length < 1 && value === '/') {
 
         return;
     }
@@ -177,6 +178,7 @@ function addToDisplay(value) {
 
     displayText.push(value);
     display.innerText = displayText.join('');
+
 
 }
 

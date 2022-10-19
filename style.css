@@ -5,16 +5,31 @@ body {
     min-height: 100vh;
     justify-content: center;
     align-items: center;
+
+
 }
 
 .calculator-display {
     display: flex;
-    padding: 20px;
+    padding: 5px;
     outline: solid black 2px;
     background-color: grey;
-    min-width: 100px;
-    text-align: center;
+    width: 150px;
+    height: 150px;
+    word-break: break-all;
+    text-align: right;
+    flex-direction: row-reverse;
+
 }
+
+.display-text {
+    height: 100px;
+    outline: solid blue 5px;
+    flex-basis: 150px;
+
+
+}
+
 
 .calculator-container {
     display: flex;
